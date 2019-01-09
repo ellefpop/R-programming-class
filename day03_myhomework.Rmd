@@ -1,0 +1,40 @@
+---
+title: "Day 3 Homework"
+output: html_document
+---
+
+1. Identify a numeric column in your data. Find the 95th %ile value of that column.
+
+```{r}
+# Reading in Data
+library(foreign)
+CHIS <- read.dta("/Users/ellepope/Desktop/R class/adult_2017_stata/ADULT.dta")
+head(CHIS[, 1:5])
+
+# 95th %tile
+summary(CHIS$ae7)
+?quantile
+quantile(CHIS$"ae7", c(0, 1, .95))
+
+```
+
+2. Subset your data to only include values greater than that extreme 95th %ile
+
+```{r}
+num_veggies_eaten <- c(CHIS$ae7)
+per95_veggies <- quantile(CHIS$"ae7", c(.95))
+
+summary(per95_veggies)
+
+```
+
+3. Now find the lowest 5th %ile, and subset to the data that includes both the lower extremes and upper extremes
+
+```{r}
+quantile(CHIS$"ae7", c(0, 1, .05))
+per5_veggies <- quantile(CHIS$"ae7", c(.05))
+
+summary(per5_veggies)
+
+```
+
