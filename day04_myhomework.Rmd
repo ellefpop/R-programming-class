@@ -68,6 +68,7 @@ summary(CHIS$povll_cats)
   c. `factor()`
 
 ```{r}
+  # still working on figuring these out
 ?relevel
 relevel(povll_cats, ref = "poor")
 
