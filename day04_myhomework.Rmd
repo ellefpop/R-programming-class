@@ -1,0 +1,115 @@
+---
+title: "Day 4 Homework"
+output: html_document
+---
+
+
+1. Identify a column in your data that *should* be a factor (whether it is or not). Check to see whether R is already treating it as a factor, and if not, convert it into a factor.
+
+```{r}
+library(haven)
+CHIS <- read_dta("/Users/ellepope/Desktop/R_Project_Data.dta")
+
+  # Variable I have chonsen is % of federal poverty level (FPL)
+View(CHIS$povll)
+head(CHIS$povll)
+
+  # Converting to factor
+summary(as_factor(CHIS$povll))
+
+
+```
+
+
+2. What are the levels of the factor? How many occurrences of each level are there in the data? Are the levels ordered in a sensible/meaningful way?
+   
+```{r}
+# levels of the factor
+levels(as_factor(CHIS$povll))
+ # this variable is % of fedaral poverty level with 4 levels 
+  # 1 = 0-99%, 2 = 100-199%, 3 = 200-299%, 4 = 300%+
+
+# number in each level
+summary(as_factor(CHIS$povll))
+  # 1 = 2,271 , 2 = 3,457 , 3 = 2,831 , 4 = 12,094
+  # Yes, levels are already ordered in a way that makes sense
+
+## extra practice with sex variable and tabulation
+sex <- factor(ifelse(CHIS$srsex == 1, "Male", "Female"), levels = c("Male", "Female"))
+xtabs(~ sex + povll, data=CHIS)
+
+```
+
+
+3. Create a new column that is a numeric "version" of the factor column, using `as.numeric()`. Use `xtabs()` to see how the values of these columns line up.
+
+```{r}
+povll_num <- as.numeric(CHIS$povll)
+povll_num
+xtabs(~ povll + povll_num, data= CHIS)
+```
+
+
+4. Create another column that is a copy of the factor column. Now, recode this new column so that the factor levels have new names. Use `xtabs()` or another function to double-check your coding.
+  (e.g., if you have a factor with levels "A" and "B", you could make a new column that had "condition A" and "condition B" as the level names instead)
+
+```{r}
+povll_cats <- CHIS$povll
+CHIS$povll_cats1 <- factor(as_factor(CHIS$povll_cats), levels = c("Poor", "Low", "Middle", "Rich"))
+
+summary(CHIS$povll_cats)
+
+```
+
+
+5. Change the order of the levels in your new factor, using three different methods:
+  a. `relevel()`
+  b. `reorder()`
+  c. `factor()`
+
+```{r}
+?relevel
+relevel(povll_cats, ref = "poor")
+
+?reorder
+reorder()
+
+?factor
+factor()
+
+```
+
+
+6. Missing values
+  a. Do you have any missing values (NA) in your data?
+  b. Are there any places where you *should* have missing values but they were read into R as some other value?
+  c. If the answer to (b) is "yes", figure out how to read in your data in a way that correctly identifies the missing value "code"
+  d. If you have any NAs in your data, describe why you think those values are missing. Does there appear to be any systematic relationship between missingness and other variables in your data?
+
+```{r}
+  # There does not appear to be any missing data; according to the data manual, CHIS data people recoded any possible missing data prior to my data download
+
+```
+
+
+7. Find some aspect of your data that needs to be combined or merged in some way.  This could be a variety of things:
+  - multiple "sheets" in an Excel
+  - multiple files that should be combined into one data set
+  - properties that need to be merged in to one data set. For example:
+    - you have a table of subject properties (gender, handedness, etc.) that need to be merged into the item-level data
+    - you have other information on countries (population, etc.) that need to be merged in
+  - if you DON'T have this naturally-occurring issue, figure out a way to manufacture it. For example:
+    - split up your data into chunks
+    - make up some new table of information that you want to merge in
+  - Explain (in words) what you are trying to do
+  - Use binding/merging commands to accomplish this
+  - Complete at least ONE example of binding and ONE example of merging
+
+```{r}
+  # merging height and weight variables
+
+  # binding
+
+  # merging
+
+```
