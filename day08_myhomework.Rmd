@@ -1,0 +1,63 @@
+---
+title: "Day 8 Homework"
+output: html_document
+---
+
+Find two repetitive things that you would like to be able to do with your data.  This can be something having to do with coding variables, or saving plots, or running an analysis multiple times on different subsets, etc. etc.  Just try to find something where you would normally need to "copy and paste" sections of code, varying only one or two things.  Figure out how to use a loop to accomplish this.  
+
+For BOTH of these things, take the following steps:
+
+1. Articulate what you want to do (verbally)
+  I would like to 1) loop a process that outputs the # of food type eaten by week instead by month, 2) plots the food type by week
+
+2. Give some code that illustrates the "copy and paste" method.  This can just show a couple of steps.  That is, if you would be running through a bunch of iterations, just copy and paste a couple of times, not everything.
+```{r}
+library(haven)
+CHIS <- read_dta("/Users/ellepope/Desktop/CHIS Voter + Health/adult_2017_stata/ADULT.dta")
+
+## 1
+# num. of times eaten veggies/fruit/french fries in the past month -> converted to weeks
+CHIS$veggie_week <- (CHIS$ae7 / 4)
+head(CHIS$veggie_month)
+str(CHIS$veggie_month)
+
+CHIS$ff_week <- (CHIS$ae3 / 4)
+head(CHIS$ff_month)
+
+CHIS$fruit_week <- (CHIS$ae2 /4)
+head(CHIS$fruit_month)
+
+## 2
+# veggie plot
+ggplot(CHIS, aes(veggie_week)) + geom_histogram(aes(fill = veggie_week))
+
+# french fry plot
+ggplot(CHIS, aes(ff_week)) + geom_histogram(aes(fill = ff_week))
+
+# fruit plot
+ggplot(CHIS, aes(fruit_week)) + geom_histogram(aes(fill = ff_week))
+```
+  
+
+3. Work this code into a loop format, so that no copy & paste is neccesary.  You will need to set up a "counter" variable that cycles through various values (which do not have to be numeric), changing with every pass through the loop.  But you may also need to make other changes to your code to accommodate the loop.
+```{r}
+# Loop that provides # of food type by week
+for (counter in c(CHIS$ae7, CHIS$ae2, CHIS$ae3)) {
+  print(counter/4)
+}
+
+# Loop that plots # of food type by week
+
+for (counter in c(CHIS$ae7, CHIS$ae2, CHIS$ae3)) {
+ ggplot(CHIS, aes(get(counter/4))) + geom_point()
+}
+
+## Not sure why this isn't working; My goal was to just get a loop of three histograms of each food type by # eaten per week
+
+```
+
+
+
+As usual, send me your .Rmd file with any data I need to replicate your results.
+
+
